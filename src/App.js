@@ -39,7 +39,6 @@ class  App extends React.Component {
               ...snapShot.data()
             }
           });
-          console.log('inside snapshot', this.state);
         });
       }
       else{
@@ -47,7 +46,6 @@ class  App extends React.Component {
           currentUser: userAuth
         });
       }
-      console.log('state', this.state);
     })
   }
 
