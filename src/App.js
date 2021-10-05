@@ -8,10 +8,10 @@ import Homepage from './pages/homepage/homepage.component';
 import './pages/homepage/homepage.styles.scss';
 
 import Shop from './pages/shop/shop.component';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import Header from './components/header/header.component';
-import SignInAndSignOut from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
+import SignInAndSignOutPage from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component';
 
 import { auth, createUserProfileDocument } from './firebase/firebase.util';
 // import { onSnapShot } from 'firebase/compat/firestore';
@@ -52,17 +52,22 @@ class  App extends React.Component {
         <Switch>
           <Route exact path='/' component={Homepage} />
           <Route exact path='/shop' component={Shop} />
-          <Route exact path='/sign-in' component={SignInAndSignOut} />
+          <Route exact path='/sign-in' render={() => this.props.currentUser ? 
+            (<Redirect to='/' />) : (<SignInAndSignOutPage />)} />
         </Switch>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({user}) => ({
+  currentUser: user.currentUser
+});
+
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-export default connect(null,
+export default connect(mapStateToProps,
                 mapDispatchToProps)
                 (App);
